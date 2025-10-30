@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>StudyHub • Study Materials, Programming Notes & Projects</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #111835;
+      --muted: #a2adcc;
+      --text: #eaf0ff;
+      --brand: #7c5cff;
+      --brand-2: #2ad3ff;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.02);
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Inter, sans-serif; background:#0b1020; color:var(--text);}
+    .container { width:min(1200px, 92%); margin:auto; }
+    .section-title { font-size:22px; font-weight:800; margin-bottom:10px; }
+    .card { background:var(--panel); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); }
+    .input { width:100%; padding:10px; border-radius:12px; border:1px solid rgba(255,255,255,.2); background:#0f1638; color:white; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:black; font-weight:700; cursor:pointer; border:none; }
+    .btn:hover { transform:translateY(-2px); }
+  </style>
+</head>
+<body>
+  <nav style="background:#111835; padding:12px;">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-weight:800; font-size:20px;">📘 StudyHub</div>
+      <div style="display:flex; gap:20px;">
+        <a href="#materials" style="color:var(--muted)">Materials</a>
+        <a href="#notes" style="color:var(--muted)">Notes</a>
+        <a href="#projects" style="color:var(--muted)">Projects</a>
+        <a href="#upload" style="color:var(--muted)">Upload</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Existing sections (materials, notes, projects etc.) यहाँ वैसे ही रहेंगे -->
+
+  <!-- UPLOAD SECTION -->
+  <section id="upload" style="padding:40px 0;">
+    <div class="container">
+      <h2 class="section-title">Upload Your Notes / Projects</h2>
+      <form class="card" action="upload.php" method="post" enctype="multipart/form-data">
+        <p style="color:var(--muted)">Choose a file (PDF, DOC, ZIP etc.) and upload it.</p>
+        <input type="file" name="file" class="input" required>
+        <button type="submit" class="btn" style="margin-top:12px;"><i class="ri-upload-2-fill"></i> Upload</button>
+      </form>
+    </div>
+  </section>
+
+  <footer style="background:#111835; padding:20px; text-align:center; color:var(--muted);">
+    © <span id="year"></span> StudyHub — All rights reserved.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

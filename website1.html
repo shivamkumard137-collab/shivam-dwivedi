@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ER.shivam • Study Materials, Programming Notes & Projects</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Figtree:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;           /* dark background */
+      --panel: #111835;        /* cards */
+      --muted: #a2adcc;        /* muted text */
+      --text: #eaf0ff;         /* primary text */
+      --brand: #7c5cff;        /* accent */
+      --brand-2: #2ad3ff;      /* accent secondary */
+      --ring: rgba(124, 92, 255, .55);
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.02);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(124,92,255,.20), transparent 60%),
+                  radial-gradient(900px 600px at 80% 10%, rgba(42,211,255,.14), transparent 60%),
+                  linear-gradient(180deg, #0b1020 0%, #0a0f1f 100%);
+      letter-spacing: 0.2px;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1200px, 92%); margin-inline: auto; }
+
+    /* Navbar */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(1.1) blur(12px);
+      background: linear-gradient(180deg, rgba(11,16,32,.95), rgba(11,16,32,.75));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 12px; }
+    .brand {
+      display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .3px;
+      font-family: Figtree, Inter, sans-serif; font-size: 20px;
+    }
+    .brand .logo {
+      width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; font-size: 20px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: var(--shadow);
+    }
+    .nav-links { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+    .nav-link { padding: 8px 12px; border-radius: 12px; color: var(--muted); font-weight: 600; font-size: 14px; }
+    .nav-link:hover, .nav-link.active { color: white; background: rgba(124,92,255,.12); }
+    .cta {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: black; font-weight: 800; box-shadow: var(--shadow);
+    }
+
+    /* Hero */
+    .hero { padding: 64px 0 36px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 26px; align-items: center; }
+    .hero h1 { font-size: clamp(28px, 4vw, 48px); line-height: 1.12; margin: 0 0 14px; }
+    .hero p { color: var(--muted); font-size: 16px; margin: 0 0 18px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,.1);
+      background: #0f1430; color: white; font-weight: 700; cursor: pointer; transition: .2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: rgba(255,255,255,.18); }
+    .btn.primary { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: black; border: none; }
+
+    .hero-card { background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); border: 1px solid rgba(255,255,255,.06); }
+    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+    .stat { background: #0c142e; border: 1px solid rgba(255,255,255,.06); border-radius: 16px; padding: 14px; }
+    .stat .num { font-size: 22px; font-weight: 800; }
+    .stat .label { color: var(--muted); font-size: 12px; }
+
+    /* Section */
+    section { padding: 34px 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; margin-bottom: 16px; }
+    .section-title { font-size: 22px; font-weight: 800; margin: 0; }
+    .section-sub { color: var(--muted); font-size: 14px; }
+
+    /* Grid & Cards */
+    .grid { display: grid; gap: 14px; }
+    .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .card {
+      background: var(--panel); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow);
+    }
+    .card h3 { margin: 0 0 8px; font-size: 18px; }
+    .card p { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+    .meta { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 12px; }
+    .tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; background: rgba(124,92,255,.16); border: 1px solid rgba(124,92,255,.35); color: #dcd5ff; font-weight: 700; font-size: 12px; }
+
+    /* Search + Filters */
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; }
+    .input { flex: 1; background: #0f1638; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 12px 12px; color: white; }
+    .select { background: #0f1638; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 10px 12px; color: white; }
+
+    /* List */
+    .list { display: grid; gap: 10px; }
+    .list-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #0f1638; border: 1px solid rgba(255,255,255,.08); padding: 12px; border-radius: 14px; }
+
+    /* Projects */
+    .project { display: grid; gap: 10px; }
+    .project .actions { justify-content: space-between; }
+
+    /* FAQ */
+    .faq { border: 1px solid rgba(255,255,255,.08); border-radius: 16px; overflow: hidden; }
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,.06); background: #0f1638; }
+    .faq-q { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px; cursor: pointer; }
+    .faq-a { display: none; padding: 0 14px 14px; color: var(--muted); }
+
+    /* Footer */
+    footer { padding: 34px 0 54px; color: var(--muted); border-top: 1px solid rgba(255,255,255,.08); margin-top: 24px; }
+
+    /* Responsive */
+    @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; } .grid.cols-3 { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 680px) { .nav-links { display:none; } .grid.cols-3, .grid.cols-2 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="brand" aria-label="NotesHub Home">
+        <span class="logo"><i class="ri-graduation-cap-fill"></i></span>
+        <span>NotesHub</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link active" href="#materials">Study Materials</a>
+        <a class="nav-link" href="#notes">Programming Notes</a>
+        <a class="nav-link" href="#projects">Projects</a>
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </div>
+      <a class="cta" href="#projects"><i class="ri-rocket-2-fill"></i> Start Building</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1>Your one‑stop hub for <span style="background:linear-gradient(135deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">Study Materials</span>,
+          <span style="background:linear-gradient(135deg,var(--brand-2),var(--brand));-webkit-background-clip:text;background-clip:text;color:transparent">Programming Notes</span> &
+          <span style="background:linear-gradient(135deg,#60d394,#2ad3ff);-webkit-background-clip:text;background-clip:text;color:transparent">Projects</span>.</h1>
+        <p>We curate concise notes, exam‑oriented PDFs and step‑by‑step projects so you can learn faster and build confidently. All resources are community‑tested and regularly updated.</p>
+        <div class="actions">
+          <a class="btn primary" href="#materials"><i class="ri-book-open-fill"></i> Explore Materials</a>
+          <a class="btn" href="#notes"><i class="ri-code-box-fill"></i> Browse Notes</a>
+          <a class="btn" href="#projects"><i class="ri-macbook-line"></i> See Projects</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><div class="num" id="stat-materials">120+</div><div class="label">Study PDFs</div></div>
+          <div class="stat"><div class="num" id="stat-notes">75+</div><div class="label">Programming Notes</div></div>
+          <div class="stat"><div class="num" id="stat-projects">40+</div><div class="label">Mini Projects</div></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="meta" style="margin-bottom:10px">
+          <span class="tag"><i class="ri-sparkling-2-line"></i> New</span>
+          <span class="tag" style="background:rgba(34,197,94,.16); border-color:rgba(34,197,94,.35); color:#d2fbdc"><i class="ri-check-fill"></i> Reviewed</span>
+        </div>
+        <h3 style="margin:0 0 6px">What you'll find here</h3>
+        <ul style="margin:0; padding-left:18px; color:var(--muted); line-height:1.6">
+          <li>Semester‑wise <strong>study materials</strong> with downloadable PDFs.</li>
+          <li>Topic‑wise <strong>programming notes</strong> in C, C++, Java, Python, Web, DSA.</li>
+          <li>Beginner‑friendly <strong>projects</strong> with source code & documentation.</li>
+          <li>Interview prep: cheat‑sheets, patterns, and solved MCQs.</li>
+        </ul>
+        <div class="meta" style="margin-top:12px"><i class="ri-time-line"></i> Updated weekly • <i class="ri-shield-check-line"></i> Quality‑checked</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STUDY MATERIALS -->
+  <section id="materials">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Study Materials</h2>
+          <div class="section-sub">Download‑ready notes organised by course & semester.</div>
+        </div>
+        <div class="toolbar">
+          <input id="search-materials" class="input" placeholder="Search subjects e.g. DBMS, Discrete Math" />
+          <select id="filter-sem" class="select">
+            <option value="">All Semesters</option>
+            <option>Sem 1</option>
+            <option>Sem 2</option>
+            <option>Sem 3</option>
+            <option>Sem 4</option>
+            <option>Sem 5</option>
+            <option>Sem 6</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid cols-3" id="materials-grid">
+        <!-- Sample cards (duplicate/edit to add your real PDFs/links) -->
+        <article class="card material" data-sem="Sem 1" data-title="Computer Fundamentals PDF">
+          <h3>Computer Fundamentals</h3>
+          <p>Basics of hardware, OS, number systems, and binary math with solved examples.</p>
+          <div class="meta"><i class="ri-book-2-line"></i> Sem 1 • <span>PDF</span></div>
+          <div class="actions" style="margin-top:10px">
+            <a class="btn" href="#" download><i class="ri-download-2-line"></i> Download</a>
+            <a class="btn" href="#"><i class="ri-external-link-line"></i> View</a>
+          </div>
+        </article>
+        <article class="card material" data-sem="Sem 2" data-title="Discrete Mathematics Notes">
+          <h3>Discrete Mathematics</h3>
+          <p>Logic, sets, functions, relations, graphs and combinatorics—short, exam‑oriented.</p>
+          <div class="meta"><i class="ri-book-2-line"></i> Sem 2 • <span>PDF</span></div>
+          <div class="actions" style="margin-top:10px">
+            <a class="btn" href="#" download><i class="ri-download-2-line"></i> Download</a>
+            <a class="btn" href="#"><i class="ri-external-link-line"></i> View</a>
+          </div>
+        </article>
+        <article class="card material" data-sem="Sem 3" data-title="DBMS Complete Handwritten">
+          <h3>DBMS Complete</h3>
+          <p>ER models, normalization, SQL queries with 200+ practice questions.</p>
+          <div class="meta"><i class="ri-book-2-line"></i> Sem 3 • <span>PDF</span></div>
+          <div class="actions" style="margin-top:10px">
+            <a class="btn" href="#" download><i class="ri-download-2-line"></i> Download</a>
+            <a class="btn" href="#"><i class="ri-external-link-line"></i> View</a>
+          </div>
+        </article>
+        <article class="card material" data-sem="Sem 4" data-title="Operating Systems Quick Revision">
+          <h3>Operating Systems</h3>
+          <p>Processes, scheduling, memory management and file systems with diagrams.</p>
+          <div class="meta"><i class="ri-book-2-line"></i> Sem 4 • <span>PDF</span></div>
+          <div class="actions" style="margin-top:10px">
+            <a class="btn" href="#" download><i class="ri-download-2-line"></i> Download</a>
+            <a class="btn" href="#"><i class="ri-external-link-line"></i> View</a>
+          </div>
+        </article>
+        <article class="card material" data-sem="Sem 5" data-title="Computer Networks Crash Course">
+          <h3>Computer Networks</h3>
+          <p>OSI/TCP‑IP, routing, switching, and network security in bite‑sized notes.</p>
+          <div class="meta"><i class="ri-book-2-line"></i> Sem 5 • <span>PDF</span></div>
+          <div class="actions" style="margin-top:10px">
+            <a class="btn" href="#" download><i class="ri-download-2-line"></i> Download</a>
+            <a class="btn" href="#"><i class="ri-external-link-line"></i> View</a>
+          </div>
+        </article>
+        <article class="card material" data-sem="Sem 6" data-title="Software Engineering Notes">
+          <h3>Software Engineering</h3>
+          <p>SDLC, UML, testing strategies and documentation templates.</p>
+          <div class="meta"><i class="ri-book-2-line"></i> Sem 6 • <span>PDF</span></div>
+          <div class="actions" style="margin-top:10px">
+            <a class="btn" href="#" download><i class="ri-download-2-line"></i> Download</a>
+            <a class="btn" href="#"><i class="ri-external-link-line"></i> View</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMMING NOTES -->
+  <section id="notes">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Programming Notes</h2>
+          <div class="section-sub">Concise topic‑wise explanations with examples & cheat‑sheets.</div>
+        </div>
+        <div class="toolbar">
+          <input id="search-notes" class="input" placeholder="Search topics e.g. arrays, OOP, SQL joins" />
+          <select id="filter-lang" class="select">
+            <option value="">All Languages</option>
+            <option>C</option>
+            <option>C++</option>
+            <option>Java</option>
+            <option>Python</option>
+            <option>Web</option>
+            <option>DSA</option>
+          </select>
+        </div>
+      </div>
+      <div class="list" id="notes-list">
+        <div class="list-item note" data-lang="DSA" data-title="Arrays & Pointers in C">
+          <div>
+            <strong>Arrays & Pointers (C)</strong>
+            <div class="meta"><i class="ri-code-s-slash-line"></i> DSA • Arrays • Pointers</div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#"><i class="ri-file-list-3-line"></i> Read</a>
+            <a class="btn" href="#" download><i class="ri-download-2-line"></i> PDF</a>
+          </div>
+        </div>
+        <div class="list-item note" data-lang="Java" data-title="OOP Principles in Java">
+          <div>
+            <strong>OOP Principles (Java)</strong>
+            <div class="meta"><i class="ri-code-s-slash-line"></i> Java • Classes • Polymorphism</div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#"><i class="ri-file-list-3-line"></i> Read</a>
+            <a class="btn" href="#" download><i class="ri-download-2-line"></i> PDF</a>
+          </div>
+        </div>
+        <div class="list-item note" data-lang="Python" data-title="Pandas Data Analysis Cheatsheet">
+          <div>
+            <strong>Pandas Data Analysis (Python)</strong>
+            <div class="meta"><i class="ri-code-s-slash-line"></i> Python • DataFrames • Plotting</div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#"><i class="ri-file-list-3-line"></i> Read</a>
+            <a class="btn" href="#" download><i class="ri-download-2-line"></i> PDF</a>
+          </div>
+        </div>
+        <div class="list-item note" data-lang="Web" data-title="Responsive Flexbox & Grid Guide">
+          <div>
+            <strong>Responsive Layout: Flexbox & Grid (Web)</strong>
+            <div class="meta"><i class="ri-code-s-slash-line"></i> HTML • CSS • Layout</div>
+          </div>
+          <div class="actions">
+            <a class="btn" href="#"><i class="ri-file-list-3-line"></i> Read</a>
+            <a class="btn" href="#" download><i class="ri-download-2-line"></i> PDF</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Projects</h2>
+          <div class="section-sub">Build your skills with real, guided projects. Source code included.</div>
+        </div>
+        <div class="toolbar">
+          <select id="filter-difficulty" class="select">
+            <option value="">All Levels</option>
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid cols-3" id="projects-grid">
+        <article class="card project" data-difficulty="Beginner" data-title="TODO App with LocalStorage">
+          <h3>TODO App (HTML/CSS/JS)</h3>
+          <p>Create a simple todo application with LocalStorage persistence and filters.</p>
+          <div class="meta"><i class="ri-seedling-line"></i> Beginner • Web</div>
+          <div class="actions">
+            <a class="btn" href="#"><i class="ri-github-fill"></i> Source</a>
+            <a class="btn" href="#"><i class="ri-booklet-line"></i> Guide</a>
+          </div>
+        </article>
+        <article class="card project" data-difficulty="Intermediate" data-title="Student Result Management System">
+          <h3>Student Result Management (Python/Flask)</h3>
+          <p>CRUD app for students, marks, and reports with SQLite database.</p>
+          <div class="meta"><i class="ri-leaf-line"></i> Intermediate • Backend</div>
+          <div class="actions">
+            <a class="btn" href="#"><i class="ri-github-fill"></i> Source</a>
+            <a class="btn" href="#"><i class="ri-booklet-line"></i> Guide</a>
+          </div>
+        </article>
+        <article class="card project" data-difficulty="Advanced" data-title="Face Mask Detection with CNN">
+          <h3>Face Mask Detection (Python/TensorFlow)</h3>
+          <p>Train a CNN on image data and deploy a real‑time detector with OpenCV.</p>
+          <div class="meta"><i class="ri-plant-line"></i> Advanced • ML</div>
+          <div class="actions">
+            <a class="btn" href="#"><i class="ri-github-fill"></i> Source</a>
+            <a class="btn" href="#"><i class="ri-booklet-line"></i> Guide</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">About Our Website</h2>
+          <div class="section-sub">What we provide and how to use these resources effectively.</div>
+        </div>
+      </div>
+      <div class="grid cols-2">
+        <article class="card">
+          <h3>Our Mission</h3>
+          <p>We believe self‑learning should be fast and practical. That’s why we prepare crisp study materials, to‑the‑point programming notes and real projects that help you apply concepts. Whether you’re preparing for exams or interviews, our content focuses on clarity, examples and problem‑solving.</p>
+          <ul style="margin:0; padding-left:18px; color:var(--muted); line-height:1.7">
+            <li>Curated by student mentors and industry contributors.</li>
+            <li>Semester mapping for quick exam revision.</li>
+            <li>Notes with code snippets, patterns and pitfalls.</li>
+            <li>Projects with setup, explanation and documentation templates.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>How to Use These Materials</h3>
+          <ol style="margin:0; padding-left:18px; color:var(--muted); line-height:1.8">
+            <li>Start with the <strong>Study Materials</strong> of your current semester.</li>
+            <li>Pair each topic with matching <strong>Programming Notes</strong> (search bar helps!).</li>
+            <li>Pick a <strong>Project</strong> at your level and build it end‑to‑end.</li>
+            <li>Revise with our cheat‑sheets and MCQs before tests or interviews.</li>
+          </ol>
+          <div class="meta" style="margin-top:10px"><i class="ri-lightbulb-flash-line"></i> Tip: Keep a learning journal and document every bug you fix.</div>
+        </article>
+      </div>
+
+      <div class="faq" style="margin-top:16px">
+        <div class="faq-item">
+          <div class="faq-q"><strong>Are the PDFs free to download?</strong> <i class="ri-arrow-down-s-line"></i></div>
+          <div class="faq-a">Yes. You can view them online or download for offline revision. Please do not re‑host without permission.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><strong>Can I contribute notes or projects?</strong> <i class="ri-arrow-down-s-line"></i></div>
+          <div class="faq-a">Absolutely! Use the contact form below to share a link to your material. We review for quality and give you credit.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><strong>Will you add solutions for previous year papers?</strong> <i class="ri-arrow-down-s-line"></i></div>
+          <div class="faq-a">Yes—previous year questions with step‑by‑step solutions are being compiled semester‑wise.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / SUBSCRIBE -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Contact & Updates</h2>
+          <div class="section-sub">Have a question or want to submit resources? Say hi!</div>
+        </div>
+      </div>
+      <div class="grid cols-2">
+        <form class="card" onsubmit="event.preventDefault(); alert('Thanks! We will reply soon.'); this.reset();">
+          <h3>Contact Form</h3>
+          <div style="display:grid; gap:10px; grid-template-columns:1fr 1fr;">
+            <input class="input" placeholder="Full Name" required>
+            <input type="email" class="input" placeholder="Email" required>
+          </div>
+          <input class="input" placeholder="Subject" style="margin-top:10px" required>
+          <textarea class="input" placeholder="Message" rows="5" style="margin-top:10px" required></textarea>
+          <button class="btn primary" type="submit"><i class="ri-send-plane-fill"></i> Send Message</button>
+        </form>
+        <div class="card">
+          <h3>Subscribe for New Materials</h3>
+          <p class="section-sub">Get notified when we add fresh notes, guides or projects.</p>
+          <form onsubmit="event.preventDefault(); alert('Subscribed!'); this.reset();" style="display:flex; gap:10px; flex-wrap:wrap">
+            <input type="email" class="input" placeholder="you@example.com" required>
+            <button class="btn" type="submit"><i class="ri-notification-3-line"></i> Subscribe</button>
+          </form>
+          <div class="meta" style="margin-top:12px"><i class="ri-shield-keyhole-line"></i> We never share your email.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap">
+      <div>© <span id="year"></span> StudyHub - Presented by ER.Shivam Dwivedi</div>
+      <div class="meta">Built with ♥ for learners • <a href="#about">About</a> • <a href="#contact">Contact</a></div>
+    </div>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple search + filter for Study Materials
+    const matSearch = document.getElementById('search-materials');
+    const matFilter = document.getElementById('filter-sem');
+    const matCards = [...document.querySelectorAll('#materials-grid .material')];
+    function filterMaterials(){
+      const q = (matSearch.value || '').toLowerCase();
+      const sem = matFilter.value;
+      matCards.forEach(card => {
+        const title = card.dataset.title.toLowerCase();
+        const okQ = !q || title.includes(q);
+        const okSem = !sem || card.dataset.sem === sem;
+        card.style.display = okQ && okSem ? '' : 'none';
+      });
+    }
+    matSearch.addEventListener('input', filterMaterials);
+    matFilter.addEventListener('change', filterMaterials);
+
+    // Search + filter for Notes
+    const noteSearch = document.getElementById('search-notes');
+    const noteFilter = document.getElementById('filter-lang');
+    const notes = [...document.querySelectorAll('#notes-list .note')];
+    function filterNotes(){
+      const q = (noteSearch.value || '').toLowerCase();
+      const lang = noteFilter.value;
+      notes.forEach(n => {
+        const title = n.dataset.title.toLowerCase();
+        const okQ = !q || title.includes(q);
+        const okL = !lang || n.dataset.lang === lang;
+        n.style.display = okQ && okL ? '' : 'none';
+      });
+    }
+    noteSearch.addEventListener('input', filterNotes);
+    noteFilter.addEventListener('change', filterNotes);
+
+    // Filter projects by difficulty
+    const projFilter = document.getElementById('filter-difficulty');
+    const projects = [...document.querySelectorAll('#projects-grid .project')];
+    function filterProjects(){
+      const diff = projFilter.value;
+      projects.forEach(p => {
+        p.style.display = !diff || p.dataset.difficulty === diff ? '' : 'none';
+      });
+    }
+    projFilter.addEventListener('change', filterProjects);
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const a = q.nextElementSibling;
+        const open = a.style.display === 'block';
+        document.querySelectorAll('.faq-a').forEach(x => x.style.display = 'none');
+        a.style.display = open ? 'none' : 'block';
+      });
+    });
+
+    // Smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target){ e.preventDefault(); target.scrollIntoView({ behavior:'smooth', block:'start' }); }
+      });
+    });
+  </script>
+</body>
+</html>
+<section id="upload">
+  <div class="container">
+    <h2 class="section-title">Upload Your Notes</h2>
+    <form action="upload.php" method="post" enctype="multipart/form-data" class="card">
+      <input type="file" name="file" class="input" required>
+      <button type="submit" class="btn primary"><i class="ri-upload-2-fill"></i> Upload</button>
+    </form>
+  </div>
+</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudyHub • Study Materials, Programming Notes & Projects</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #111835;
+      --muted: #a2adcc;
+      --text: #eaf0ff;
+      --brand: #7c5cff;
+      --brand-2: #2ad3ff;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.02);
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Inter, sans-serif; background:#0b1020; color:var(--text);}
+    .container { width:min(1200px, 92%); margin:auto; }
+    .section-title { font-size:22px; font-weight:800; margin-bottom:10px; }
+    .card { background:var(--panel); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); }
+    .input { width:100%; padding:10px; border-radius:12px; border:1px solid rgba(255,255,255,.2); background:#0f1638; color:white; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:black; font-weight:700; cursor:pointer; border:none; }
+    .btn:hover { transform:translateY(-2px); }
+  </style>
+</head>
+<body>
+  <nav style="background:#111835; padding:12px;">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="font-weight:800; font-size:20px;">📘 NotesHub</div>
+      <div style="display:flex; gap:20px;">
+        <a href="#materials" style="color:var(--muted)">Materials</a>
+        <a href="#notes" style="color:var(--muted)">Notes</a>
+        <a href="#projects" style="color:var(--muted)">Projects</a>
+        <a href="#upload" style="color:var(--muted)">Upload</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Existing sections (materials, notes, projects etc.) यहाँ वैसे ही रहेंगे -->
+
+  <!-- UPLOAD SECTION -->
+  <section id="upload" style="padding:40px 0;">
+    <div class="container">
+      <h2 class="section-title">Upload Your Notes / Projects</h2>
+      <form class="card" action="upload.php" method="post" enctype="multipart/form-data">
+        <p style="color:var(--muted)">Choose a file (PDF, DOC, ZIP etc.) and upload it.</p>
+        <input type="file" name="file" class="input" required>
+        <button type="submit" class="btn" style="margin-top:12px;"><i class="ri-upload-2-fill"></i> Upload</button>
+      </form>
+    </div>
+  </section>
+
+  <footer style="background:#111835; padding:20px; text-align:center; color:var(--muted);">
+    <span id="year"></span> NotesHub — All rights unreserved.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
